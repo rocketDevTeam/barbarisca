@@ -1,57 +1,65 @@
-let isStartSome = false;
-let isStopSome = false;
+let isStartExist = false;
+let isStopExist = false;
 let intervalId = null;
 let buttonId = null;
 let audio;
+
 function doSome() {
 
-    let height = window.screen.height * 0.75;
-    let width = window.screen.width * 0.91;
+    let height = window.screen.height * 0.8;
+    let width = window.screen.width * 0.8;
 
     let rndHeigth = getRndInteger(0, height);
     let rndWidth = getRndInteger(0, width);
     let rndColor = getRandomColor();
-
+    let btn = createBnt(rndWidth, rndHeigth, rndColor);
     let startSomeNum = getRndInteger(0, 5);
-    //let startSomeNum =1;
 
-    var btn = document.createElement("Button");
-
-    btn.className = "btn btn-success btn-lg";
-    btn.style = "position: absolute; left:" + rndWidth + "px; top:" + rndHeigth + "px; background-color:" + rndColor;
-
-    if (startSomeNum == 1 && !isStartSome) {
-        isStartSome = true;
+    if (startSomeNum == 1 && !isStartExist) {
+        isStartExist = true;
         buttonId = uuidv4();
         btn.innerHTML = "START SOME";
         btn.setAttribute('onclick', 'startSome(this.id)');
         btn.setAttribute('id', buttonId);
+        btn.style.zIndex = '100000';
     }
-    else if (startSomeNum == 3 && isStartSome) {
+    else if (startSomeNum == 3 && isStartExist && !isStopExist) {
+        isStopExist = true;
         btn.innerHTML = "STOP SOME";
         btn.setAttribute('onclick', 'stopSome()');
+        btn.style.zIndex = '100000';
     }
     else {
         btn.innerHTML = "DO SOME";
         btn.setAttribute('onclick', 'doSome()');
     }
-
     document.body.appendChild(btn);
+}
+
+function doSomeNext(){
 
 }
 
+function createBnt(rndWidth, rndHeigth, rndColor) {
+    var btn = document.createElement("Button");
+    btn.className = "btn btn-success btn-lg fun-btn";
+    btn.style = "position: absolute; left:" + rndWidth + "px; top:" + rndHeigth + "px; background-color:" + rndColor;
+    return btn;
+}
+
 function stopSome() {
-    document.body.style.background = '#ffffff';
-    
-    isStopSome = false;
-    isStartSome = false;
-    document.getElementById(buttonId).removeAttribute('onclick');
-    buttonId = '';
-    if (intervalId) {
-        clearInterval(intervalId)
-        intervalId = null;
-    }
     audio.pause();
+    document.body.style.background = '#ffffff';
+    removeElementsByClass('fun-btn')
+    clearInterval(intervalId)
+    document.getElementById('main-btn').setAttribute('onclick','doSomeNext()');
+}
+
+function removeElementsByClass(className) {
+    var elements = document.getElementsByClassName(className);
+    while (elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
 }
 
 function startSome(event) {
