@@ -56,7 +56,7 @@ function startSome(event) {
         intervalId = setInterval(() => {
             doSome();
             document.body.style.background = getRandomColor();
-        }, 500)
+        }, 50)
     }
 }
 
