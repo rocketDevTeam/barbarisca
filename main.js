@@ -2,6 +2,7 @@ let isStartSome = false;
 let isStopSome = false;
 let intervalId = null;
 let buttonId = null;
+let audio;
 function doSome() {
 
     let height = window.screen.height * 0.75;
@@ -30,7 +31,7 @@ function doSome() {
         btn.innerHTML = "STOP SOME";
         btn.setAttribute('onclick', 'stopSome()');
     }
-    else  {
+    else {
         btn.innerHTML = "DO SOME";
         btn.setAttribute('onclick', 'doSome()');
     }
@@ -41,18 +42,23 @@ function doSome() {
 
 function stopSome() {
     document.body.style.background = '#ffffff';
+    
     isStopSome = false;
     isStartSome = false;
     document.getElementById(buttonId).removeAttribute('onclick');
     buttonId = '';
-    if(intervalId){
+    if (intervalId) {
         clearInterval(intervalId)
         intervalId = null;
     }
+    audio.pause();
 }
 
 function startSome(event) {
-    if(intervalId === null){
+    if (intervalId === null) {
+        audio = new Audio('sound.mp3');
+        audio.loop = true;
+        audio.play();
         intervalId = setInterval(() => {
             doSome();
             document.body.style.background = getRandomColor();
@@ -73,8 +79,8 @@ function getRandomColor() {
     return color;
 }
 function uuidv4() {
-    return 'xxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+    return 'xxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
     });
-  }
+}
