@@ -21,7 +21,7 @@ function doSome() {
 
     if (startSomeNum == 1 && !isStartSome) {
         isStartSome = true;
-        buttonId =uuidv4();
+        buttonId = uuidv4();
         btn.innerHTML = "START SOME";
         btn.setAttribute('onclick', 'startSome(this.id)');
         btn.setAttribute('id', buttonId);
@@ -40,10 +40,9 @@ function doSome() {
 }
 
 function stopSome() {
-    debugger;
     document.body.style.background = '#ffffff';
-    stopSome = false;
-    startSome = false;
+    isStopSome = false;
+    isStartSome = false;
     document.getElementById(buttonId).removeAttribute('onclick');
     buttonId = '';
     if(intervalId){
@@ -53,7 +52,6 @@ function stopSome() {
 }
 
 function startSome(event) {
-    debugger;
     if(intervalId === null){
         intervalId = setInterval(() => {
             doSome();
