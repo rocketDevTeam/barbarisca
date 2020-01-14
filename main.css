@@ -3,7 +3,19 @@
 }
 
 .button {
+        height: 48px;
+        width: 123px;
+        position: absolute;
+        left: 50%;
+        transform: translate(-61.5px);
+        top: 50%;
+}
+.button-round {
+    border-radius: 25px !important;
+    height: 48px;
+    width: 123px;
     position: absolute;
-    transform: translate(-44px,0);
+    transform: translate(-61.5px);
+    left: 50%;
     top: 50%;
 }

@@ -2,12 +2,14 @@ let isStartExist = false;
 let isStopExist = false;
 let intervalId = null;
 let buttonId = null;
+let runnerId = null;
+
 let audio;
 
 function doSome() {
 
-    let height = window.screen.height * 0.8;
-    let width = window.screen.width * 0.8;
+    let height = window.innerHeight * 0.9;
+    let width = window.innerWidth * 0.9;
 
     let rndHeigth = getRndInteger(0, height);
     let rndWidth = getRndInteger(0, width);
@@ -36,8 +38,36 @@ function doSome() {
     document.body.appendChild(btn);
 }
 
-function doSomeNext(){
+function doSomeNext() {
+    let mainBtn = document.getElementById('main-btn');
+    mainBtn.removeAttribute('onclick');
+    createSomebody();
+    let xPosition = -100;
+    audio = new Audio('media/sound-2.mp3');
+    audio.loop = true;
+    audio.play();
+    runnerId = setInterval(() => {
+        xPosition++;
+        debugger;
+        let jack = document.getElementById('jackson');
+        if (xPosition > window.innerWidth - 61) {
+            audio.pause();
+            clearInterval(runnerId)
+            jack.style.display = 'none'
+        }
+        jack.style.left = xPosition + 'px';
+    }, 15)
+}
 
+function createSomebody() {
+    let jackson = document.createElement('img');
+    jackson.src = 'media/200.gif';
+    jackson.id = 'jackson';
+    jackson.style.position = 'absolute';
+    jackson.style.left = '-100px';
+    jackson.style.top = '15px';
+    document.body.appendChild(jackson);
+    return jackson;
 }
 
 function createBnt(rndWidth, rndHeigth, rndColor) {
@@ -52,7 +82,9 @@ function stopSome() {
     document.body.style.background = '#ffffff';
     removeElementsByClass('fun-btn')
     clearInterval(intervalId)
-    document.getElementById('main-btn').setAttribute('onclick','doSomeNext()');
+    let mainBtn = document.getElementById('main-btn');
+    mainBtn.setAttribute('onclick', 'doSomeNext()');
+    mainBtn.setAttribute('class', 'button-round btn btn-danger btn-lg')
 }
 
 function removeElementsByClass(className) {
@@ -62,9 +94,9 @@ function removeElementsByClass(className) {
     }
 }
 
-function startSome(event) {
+function startSome() {
     if (intervalId === null) {
-        audio = new Audio('sound.mp3');
+        audio = new Audio('media/sound.mp3');
         audio.loop = true;
         audio.play();
         intervalId = setInterval(() => {
